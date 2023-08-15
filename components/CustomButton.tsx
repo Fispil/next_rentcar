@@ -7,17 +7,32 @@ interface CustomButtonProps {
   title: string,
   containerStyle: string,
   onClickFunction: () => void,
+  textStyles?: string,
+  rightIcon?: string,
+  isDisabled?: boolean
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, containerStyle ,onClickFunction}) => {
+const CustomButton: React.FC<CustomButtonProps> = ({
+  title,
+  containerStyle,
+  onClickFunction,
+  textStyles,
+  rightIcon,
+  isDisabled
+}) => {
   return (
     <button
-      className={containerStyle}
+      className={`custom-btn ${containerStyle}`}
       onClick={() => onClickFunction}
     >
-      <span className='flex-1 m-3'>
+      <span className={`flex-1 m-3 ${textStyles}`}>
         {title}
       </span>
+      {rightIcon &&
+        <div className='relative w-6 h-6'>
+          <Image src={rightIcon} alt='right-icon' fill className='object-contain'/>
+        </div>
+      }
     </button>
   )
 }
