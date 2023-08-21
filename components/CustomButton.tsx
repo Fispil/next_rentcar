@@ -18,22 +18,24 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClickFunction,
   textStyles,
   rightIcon,
-  isDisabled
+  isDisabled = false
 }) => {
   return (
-    <button
-      className={`custom-btn ${containerStyle}`}
-      onClick={() => onClickFunction}
-    >
-      <span className={`flex-1 m-3 ${textStyles}`}>
-        {title}
-      </span>
-      {rightIcon &&
-        <div className='relative w-6 h-6'>
-          <Image src={rightIcon} alt='right-icon' fill className='object-contain'/>
-        </div>
-      }
-    </button>
+    !isDisabled && (
+      <button
+        className={`custom-btn ${containerStyle}`}
+        onClick={onClickFunction}
+      >
+        <span className={`flex-1 m-3 ${textStyles}`}>
+          {title}
+        </span>
+        {rightIcon &&
+          <div className='relative w-6 h-6'>
+            <Image src={rightIcon} alt='right-icon' fill className='object-contain' />
+          </div>
+        }
+      </button>
+    )
   )
 }
 

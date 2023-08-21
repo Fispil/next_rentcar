@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import SearchBar from './SearchBar'
 import CustomFilter from './CustomFilter'
 import { getCars } from '@/utils';
 import CarCard from './CarCard';
-import { CarProps } from '@/types';
+import { CarProps, FilterProps } from '@/types';
 
-const Catalog = () => {
-  const [allCars, setAllCars] = useState<CarProps[]>([]);
+interface CatalogProps {
+  searchParams: FilterProps;
+}
 
-  const getAllCarsFromServer = async () => {
-    const carsFromServer = await getCars();
-    setAllCars(carsFromServer);
-  }
+const Catalog: React.FC<CatalogProps> = async ({ searchParams }) => {
+  const carsFromServer = await getCars({
+    manufacturer: searchParams.manufacturer || "",
+    year: searchParams.year || 2022,
+    fuel: searchParams.fuel || "",
+    limit: searchParams.limit || 10,
+    model: searchParams.model || "",
+  });
 
-  useEffect(() => {
-    getAllCarsFromServer()
-  }, [])
+  const isDataEmpty = !Array.isArray(carsFromServer) || carsFromServer.length < 1 || !carsFromServer;
 
   return (
     <div className='mt-12 padding-x padding-y max-width' id='discover'>
@@ -31,7 +34,7 @@ const Catalog = () => {
           </div>   
       </div>
       <div className='home__cars-wrapper'>
-        {allCars?.map(car => (
+        {!isDataEmpty && carsFromServer?.map((car: CarProps) => (
           <CarCard car={car} key={car.model} />
         ))}
       </div>
