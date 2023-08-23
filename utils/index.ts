@@ -52,10 +52,9 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   url.searchParams.append('modelFamily', model.split(" ")[0]);
   url.searchParams.append('zoomType', 'fullscreen');
   url.searchParams.append('modelYear', `${year}`);
-  // url.searchParams.append('zoomLevel', zoomLevel);
   url.searchParams.append('angle', `${angle}`);
   return `${url}`;
-} 
+}
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
   const rentalBasePrice = 60;
@@ -67,4 +66,14 @@ export const calculateCarRent = (city_mpg: number, year: number) => {
   const rentalRatePerDay = rentalBasePrice + mileageRate + ageRate;
 
   return rentalRatePerDay.toFixed(0);
+}
+
+export const updateSearchParams = (type: string, value: string) => {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  searchParams.set(type, value);
+
+  const newPathName = `${window.location.pathname}?${searchParams.toString()}`
+
+  return newPathName;
 }

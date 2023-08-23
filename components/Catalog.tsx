@@ -4,6 +4,8 @@ import CustomFilter from './CustomFilter'
 import { getCars } from '@/utils';
 import CarCard from './CarCard';
 import { CarProps, FilterProps } from '@/types';
+import { fuels, yearsOfProduction } from '@/constants';
+import ShowMore from './ShowMore';
 
 interface CatalogProps {
   searchParams: FilterProps;
@@ -27,17 +29,31 @@ const Catalog: React.FC<CatalogProps> = async ({ searchParams }) => {
         <p>Explore your world with our cars</p>
       </div>
       <div className="home__filters">
-          <SearchBar />
-          <div className="home__filter-container">
-            <CustomFilter title='fuel'/>
-            <CustomFilter title='year'/>
-          </div>   
+        <SearchBar />
+        <div className="home__filter-container">
+          <CustomFilter title='fuel' options={fuels} />
+          <CustomFilter title='year' options={yearsOfProduction} />
+        </div>
       </div>
-      <div className='home__cars-wrapper'>
-        {!isDataEmpty && carsFromServer?.map((car: CarProps) => (
-          <CarCard car={car} key={car.model} />
-        ))}
-      </div>
+      {!isDataEmpty ? (
+        <section>
+          <div className='home__cars-wrapper'>
+            {carsFromServer?.map((car: CarProps) => (
+              <CarCard car={car} key={car.model} />
+            ))}
+          </div>
+          <ShowMore 
+            page={(searchParams.limit || 10) / 10}
+            isNext={(searchParams.limit || 10) > carsFromServer.length}
+          />
+        </section>
+      ) : (
+        <div className="home__error-container">
+          <h2 className="text-black">
+            Opps, no result found.
+          </h2>
+          <p>{carsFromServer?.message}</p>
+        </div>)}
     </div>
   )
 }

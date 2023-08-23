@@ -1,7 +1,6 @@
 import AboutSection from '@/components/AboutSection'
 import Catalog from '@/components/Catalog';
 import { FilterProps } from '@/types';
-import Image from 'next/image'
 
 interface HomeProps {
   searchParams: FilterProps;

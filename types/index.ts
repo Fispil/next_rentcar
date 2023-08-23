@@ -20,3 +20,8 @@ export interface FilterProps {
   limit?: number;
   fuel?: string;
 }
+
+export interface OptionProps {
+  title: string,
+  value: string
+}
